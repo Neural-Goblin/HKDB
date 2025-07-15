@@ -1,0 +1,239 @@
+const { Router } = require("express")
+
+const  adminRouter = Router()  
+const {adminModel} = require("../db")
+
+
+
+adminRouter.post('/signup' ,  function (req , res ){
+    
+    res.json({
+      msg:"signup endpoint"
+    })
+   
+})
+
+
+
+
+adminRouter.post('/signin' ,  function (req , res ){
+    
+    res.json({
+      msg:"sign in endpoint  "
+    })
+   
+})
+
+adminRouter.post('/course' ,  function (req , res ){
+    
+    res.json({
+      msg:"to create course "
+    })
+   
+})
+adminRouter.put('/course' ,  function (req , res ){
+    
+    res.json({
+      msg:"signup endpoint"
+    })
+   
+})
+
+adminRouter.get('/course' ,  function (req , res ){
+    
+    res.json({
+      msg:"all the courses that have admin created "
+    })
+   
+})
+
+
+
+
+module.exports ={
+    
+    adminRouter :adminRouter
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const {Router} = require("express")
+// const adminRouter = Router()
+// const {adminModel, courseModel} = require("../db")
+// const jwt = require("jsonwebtoken")
+// const { JWT_ADMIN_PASSWORD } = require("../config")
+// const { adminMiddlware } = require("../middleware/admin")
+// const { course } = require("./course")
+
+
+
+
+// adminRouter.post ('/signup', async (req, res) => {
+//   const {email , password , firstName , lastName} = req.body
+// //Should convert the password so plaintext password not stored in db 
+
+//  await adminModel.create({
+//      email:email ,
+//      password:password ,
+//      firstName :firstName ,
+//      lastName :lastName 
+
+     
+// })
+
+//     res.json({
+//         message:"Signup Succeded of admin  "
+//     })
+
+// })
+
+
+// adminRouter.post ('/signin', async (req, res) => {
+// const {email , password } = req.body 
+ 
+//     const admin = await adminModel.findOne({
+//         email :email  , 
+//         password :password 
+         
+//     })
+        
+//    if(admin){
+//         const token =  jwt.sign({
+//             id: admin._id
+//          },JWT_ADMIN_PASSWORD)
+      
+
+
+//    res.json({
+//           token:token,
+//           admindata:admin
+//    })   
+     
+// }
+//    else{
+         
+//     res.status(403).json({
+//         message:"incorrect creds "
+//     })
+
+//       }
+
+   
+// })
+
+// //This endpoint  let admin create a course 
+// adminRouter.post ('/course', adminMiddlware, async (req, res) => {
+//   const adminId = req.userId ;
+
+//   const {title  , description , imageUrl , price } = req.body 
+
+// const course   = await courseModel.create({
+//     title:title  ,
+//      description:description ,
+//      imageUrl:imageUrl, 
+//      price:price ,
+//      CreatorId :adminId
+// })
+
+//     res.json({
+//         message:" course created",
+//         courseId:course._id
+//     })
+// })
+
+
+// //to Update the course 
+
+// adminRouter.put('/course', adminMiddlware , async  (req, res) => {
+
+// const adminId = req.userId;
+
+// const {title , description , imageUrl , price  , courseId} = req.body ;
+
+
+// const course  = await courseModel.updateOne({
+//    _id:courseId ,
+//    CreatorId:adminId 
+
+
+// },
+
+// {
+//     title:title,
+//     description:description,
+//     imageurl:imageUrl , 
+//     price:price , 
+
+// })
+
+
+
+//  res.json({
+//         message:"Course Updated  ",
+//         courseId:course._id 
+//     })
+// })
+
+
+
+// adminRouter.get ('/course/bulk',adminMiddlware,  async (req, res) => {
+
+
+//  const adminId = req.userId ; 
+
+//  const courses   = await courseModel.find({
+
+//   CreatorId:adminId 
+
+//  })
+
+//  res.json({
+        
+//     courses:courses.title
+//     })
+// })
+
+
+
+
+// module.exports = {
+//     adminRouter :adminRouter
+// }
