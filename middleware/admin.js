@@ -1,4 +1,29 @@
 const jwt = require('jsonwebtoken')
+const { JWT_ADMIN_PASSWORD } = require('../config')
+
+function adminMiddleware(req,res , next){
+
+  const token = req.headers.token;
+  const decoded = jwt.verify(token, JWT_ADMIN_PASSWORD) 
+
+   if(decoded){
+    req.userId= decoded.id;
+    next()
+   }
+   else{
+    res.json({
+        msessage:"not signed in "
+    })
+
+    }
+
+}
+
+
+
+module.exports={
+    adminMiddleware:adminMiddleware
+}
 
 
 
@@ -43,15 +68,15 @@ const jwt = require('jsonwebtoken')
 
 
 // const jwt = require("jsonwebtoken")
-// const { JWT_ADMIN_PASSWORD } = require("../config")
+// const { JWT_USER_PASSWORD } = require("../config")
 
 
 
 
-// function adminMiddlware(req,res,next){
+// function userMiddlware(req ,res , next){
 
 // const token = req.headers.token ;
-// const decoded = jwt.verify(token , JWT_ADMIN_PASSWORD )
+// const decoded = jwt.verify(token , JWT_USER_PASSWORD )
 
 
 //  if(decoded){
@@ -65,16 +90,10 @@ const jwt = require('jsonwebtoken')
 //     })
 //   }
   
-
-
-
 // }
 
 
 // module.exports ={
-// adminMiddlware :adminMiddlware     
+// userMiddlware :userMiddlware     
 
 // }
-
-
-

@@ -3,7 +3,9 @@ const { Router } = require("express")
 const  adminRouter = Router()  
 const {adminModel} = require("../db")
 const jwt = require('jsonwebtoken');
-const JWT_ADMIN_PASSWORD = "3RRRE3R4FRFERG"
+const { JWT_ADMIN_PASSWORD } = require('../config');
+const { adminMiddleware } = require("../middleware/admin");
+
 
 
 adminRouter.post('/signup' ,  async function (req , res ){
@@ -59,14 +61,29 @@ adminRouter.post('/signin' ,  async function (req , res ){
    
 })
 
-adminRouter.post('/course' ,  function (req , res ){
-    
+
+adminRouter.post('/course' , adminMiddleware, async function (req , res ){
+   const adminId = req.userId
+   
+   
+   const{title , description , imageurl , price} = req.body;
+
+   const course = await courseModel.create({
+    title:title,
+    description:description,
+    imageurl:imageurl,
+    price:price,
+    creatorId:adminId
+
+   })
+
     res.json({
-      msg:"to create course "
+      message:"course_created",
+      courseId:course._id
     })
    
 })
-adminRouter.put('/course' ,  function (req , res ){
+adminRouter.put('/course' , adminMiddleware, function (req , res ){
     
     res.json({
       msg:"signup endpoint"
@@ -74,7 +91,7 @@ adminRouter.put('/course' ,  function (req , res ){
    
 })
 
-adminRouter.get('/course/bulk' ,  function (req , res ){
+adminRouter.get('/course/bulk' ,adminMiddleware,  function (req , res ){
     
     res.json({
       msg:"all the courses that have admin created "
