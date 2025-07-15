@@ -2,24 +2,55 @@
 
 const { Router } = require("express")
 const userRouter = Router();
+const {userModel} = require('../db')
+const jwt = require("jsonwebtoken")
+const JWT_USER_PASSWORD = "ALADLD123"
+userRouter.post('/signup' ,  async function (req , res ){
+     const{email, password , firstName , lastName} = req.body;
+        
+       await userModel.create({
+        email:email,
+        password:password,
+        firstName:firstName,
+        lastName:lastName
+       })
 
-
-userRouter.post('/signup' ,  function (req , res ){
-    
     res.json({
-      msg:"signup endpoint"
+      msg:"signup succeded "
     })
    
 })
 
 
-userRouter.post('/signin' ,  function (req , res ){
+userRouter.post('/signin' ,  async function (req , res ){
     
-    res.json({
-      msg:"sign in endpoint  "
+     const {email , password }  = req.body;
+
+     const user  = await userModel.findOne({
+      email :email ,
+      password :password  
+     })
+
+     if(user){
+        const token = jwt.sign({
+          id:user._id
+        }, JWT_USER_PASSWORD)
+       
+res.json({
+         sent_token:token,
+         idt:user[0]._id
     })
-   
+
+     }
+
+       
+else{
+    res.json({
+      msg:"status 403"
+    })
+  }   
 })
+
 
 
 //Returns all the course that user has Purchassed 

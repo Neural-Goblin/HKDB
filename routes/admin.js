@@ -2,11 +2,25 @@ const { Router } = require("express")
 
 const  adminRouter = Router()  
 const {adminModel} = require("../db")
+const jwt = require('jsonwebtoken');
+const JWT_ADMIN_PASSWORD = "3RRRE3R4FRFERG"
 
 
+adminRouter.post('/signup' ,  async function (req , res ){
+     const{email, password , firstName , lastName} = req.body;
+             
+            await adminModel.create({
+             email:email,
+             password:password,
+             firstName:firstName,
+             lastName:lastName
+            })
+     
+         res.json({
+           msg:"signup succeded "
+         })
 
-adminRouter.post('/signup' ,  function (req , res ){
-    
+
     res.json({
       msg:"signup endpoint"
     })
@@ -16,11 +30,32 @@ adminRouter.post('/signup' ,  function (req , res ){
 
 
 
-adminRouter.post('/signin' ,  function (req , res ){
-    
-    res.json({
-      msg:"sign in endpoint  "
-    })
+adminRouter.post('/signin' ,  async function (req , res ){
+    const {email , password }  = req.body;
+ 
+      const admin  = await adminModel.findOne({
+       email :email ,
+       password :password  
+      })
+ 
+      if(admin){
+         const token = jwt.sign({
+           id:admin._id
+         }, JWT_ADMIN_PASSWORD)
+        
+ res.json({
+          sent_token:token,
+          idt:admin._id
+     })
+ 
+      }
+ 
+        
+ else{
+     res.json({
+       msg:"status 403"
+     })
+   }   
    
 })
 
@@ -39,7 +74,7 @@ adminRouter.put('/course' ,  function (req , res ){
    
 })
 
-adminRouter.get('/course' ,  function (req , res ){
+adminRouter.get('/course/bulk' ,  function (req , res ){
     
     res.json({
       msg:"all the courses that have admin created "

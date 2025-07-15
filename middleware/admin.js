@@ -1,3 +1,47 @@
+const jwt = require('jsonwebtoken')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const jwt = require("jsonwebtoken")
 // const { JWT_ADMIN_PASSWORD } = require("../config")
 
@@ -21,6 +65,9 @@
 //     })
 //   }
   
+
+
+
 // }
 
 
@@ -28,3 +75,6 @@
 // adminMiddlware :adminMiddlware     
 
 // }
+
+
+
