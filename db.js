@@ -60,7 +60,7 @@ const purchaseModel = mongoose.model("purchase" ,purchaseSchema)
 module.exports = {
     userModel:userModel,
     adminModel:adminModel,
-    courseModel:adminModel,
+    courseModel:courseModel,
     purchaseModel:purchaseModel
 }
 
