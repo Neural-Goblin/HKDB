@@ -2,9 +2,12 @@
 
 const { Router } = require("express")
 const userRouter = Router();
-const {userModel} = require('../db')
+const {userModel, purchaseModel} = require('../db')
 const jwt = require("jsonwebtoken")
-const { JWT_USER_PASSWORD } = require('../config')
+const { JWT_USER_PASSWORD } = require('../config');
+const { userMiddleware } = require("../middleware/user");
+//const { purchaseModel } = require("../db");
+
  
 
 
@@ -41,8 +44,8 @@ userRouter.post('/signin' ,  async function (req , res ){
        
 res.json({
          sent_token:token,
-         idt:user[0]._id
-    })
+         
+        })
 
      }
 
@@ -57,11 +60,18 @@ else{
 
 
 //Returns all the course that user has Purchassed 
-userRouter.get('/purchases' ,  function (req , res ){
-    
+userRouter.get('/purchases' ,userMiddleware,  function (req , res ){
+  const userId = req.userId  
+
+   const purchases = purchaseModel.find({
+       user:userId
+     
+   })
     res.json({
-//
-      msg:"Returns all the course that user has Purchassed "
+      purchases
+
+
+ 
     })
    
 })
